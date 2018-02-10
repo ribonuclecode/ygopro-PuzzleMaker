@@ -15,6 +15,7 @@ var thumb_continuous_target;
 var isIE = /*@cc_on!@*/!1;
 var IE10 = isIE && parseInt($.browser.version) >= 10;
 var current_page ;
+var current_page = 1;
 var page_num;
 var table_row = 6;//Math.floor((getViewSize().h-250)/64);
 var MZONE = 0;
@@ -58,13 +59,11 @@ var COORDINATE = [PLAYER_0,PLAYER_1];
 var locale = 'zh';
 var cards_url = "http://my-card.in/cards";
 
-//var card_img_url = "http://my-card.in/images/cards/ygocore/";
-//var card_img_thumb_url = "http://my-card.in/images/cards/ygocore/thumbnail/";
-
 var card_img_url = "https://raw.githubusercontent.com/moecube/ygopro-images/master/pics/";
 var card_img_thumb_url = "https://raw.githubusercontent.com/moecube/ygopro-images/master/pics/";
 
 var datas = new Object();
+
 
 function initField(){
 	var player, place;
@@ -151,18 +150,31 @@ function initField(){
 		});
 		$('#box_img').attr("src", "images/qm.png");
 	});
-//*test 黑羽
 
-	current_page = 1;
-	page_num = 0;
-	html = "";
-    //default_result = default_result.slice(1,100)
-	for( var i in default_result){
+	createTable(current_page, true)
+//*/
+}
+
+
+function createTable(current_page, isChangedNumOfPage){
+	//*test  Black Feather 
+
+	//current_page = 1;
 	
+	html = "";
+
+	if (isChangedNumOfPage){
+		page_num = Math.floor(default_result.length / table_row)+1;
+	} 
+	
+    //default_result = default_result.slice(1,100)
+	//for( var i in default_result){
+	for (var i = (current_page-1)*table_row; i < current_page*table_row; i++){
+		console.log(i)
 		var card = default_result[i];
 		datas[card._id]=card;
 		if(i%table_row==0){
-			page_num ++;
+			//page_num ++;
 			html = html + "<table class='page' style='display:none'>";
 			html = html + "<tr>";
 			html = html + "<th width='46px'>Ilustration</th>";
@@ -170,26 +182,29 @@ function initField(){
 			html = html + "</tr>";
 		}
 		html = html + "<tr>";
-		//html = html + "<td><img class='thumbImg' src='" + card_img_thumb_url + card._id + ".jpg' style='cursor:pointer;'>" + "</td>";
-        html = html + "<td><img class='thumbImg' src='" + card_img_thumb_url + "" + ".jpg' style='cursor:pointer;'>" + "</td>";
+		html = html + "<td><img class='thumbImg' src='" + card_img_thumb_url + card._id + ".jpg' style='cursor:pointer;'>" + "</td>";
+        //html = html + "<td><img class='thumbImg' src='" + card_img_thumb_url + "" + ".jpg' style='cursor:pointer;'>" + "</td>";
 		html = html + "<td width=200px><div class='cardname'>" + card.name + "</div></td>";
 		html = html + "</tr>";
 		if(((i+1)%table_row==0) || (i==default_result.length)){
 			html = html+ "</table>";
 		}
 	}
+	
 	var tables = document.getElementById("result");
 	$(tables).html(html);
 	tablecloth();
 	page_button.style.display = 'block';
 	setPageLabel(current_page, page_num);
-	showPage(current_page);
+	//showPage(current_page);
+	var tables2 = document.getElementsByTagName('table');
+	tables2[0].style.display = "block";
 	var thumbs = tables.getElementsByClassName("thumbImg");
 	for (var i=0; i< thumbs.length;i++){
 		makeDraggable(thumbs[i]);
 	}
-//*/
 }
+
 function search(){
 	var name = document.getElementById("keyword").value;
 	var page_button = document.getElementById("page_button");
@@ -273,28 +288,33 @@ function search(){
 		});
 	});
 }
-function prePage(){ //上一页
+function prePage(){ // Previous page 
 	if(current_page == 1) return false;
 	current_page--;
 	setPageLabel(current_page, page_num);
 	showPage(current_page);
 }
-function nextPage(){//下一页
+function nextPage(){// Next page 
 	if(current_page == page_num) return false;
 	current_page++;
 	setPageLabel(current_page, page_num);
+	if (current_page < 1482) {
+		current_page = 1482;	
+	}
+	
 	showPage(current_page)
 }
-function showPage(current_page){//显示current页
-	var tables = document.getElementsByTagName('table');
-	for(var i=0; i<tables.length; i++){
-		if(i == current_page -1) //current为1时显示table[0]
-			tables[i].style.display = "block";
-		else
-			tables[i].style.display = "none";
-	}
+function showPage(page){// display current page 
+	createTable(page, false)
+	// var tables = document.getElementsByTagName('table');
+	// for(var i=0; i<tables.length; i++){
+	// 	if(i == current_page -1) //current for 1 When it is displayed table[0]
+	// 		tables[i].style.display = "block";
+	// 	else
+	// 		tables[i].style.display = "none";
+	// }
 }
-function setPageLabel(current_page, page_num) {//显示第X页/共X页
+function setPageLabel(current_page, page_num) {// Show the first X page / Total X page 
 	var page_label = $('.page_label');
 	var built = $('#page-tmpl').tmpl({
 		current_page: current_page || 0,
@@ -302,7 +322,7 @@ function setPageLabel(current_page, page_num) {//显示第X页/共X页
 	});
 	page_label.html(built);
 }
-function addField(player, location, place) {//画场地
+function addField(player, location, place) {// Draw the venue 
 	var top, left;
 	top = COORDINATE[player][location].top;
 	left = COORDINATE[player][location].left + 66*place;
@@ -328,7 +348,7 @@ function addCard(field, card_info){
 	var tmplItem = $(field).tmplItem().data;
 	var location = tmplItem.location;
 	var card_list = $.data(field, 'card_list');
-	if(location == "location_szone" || location == "location_field"|| location == "location_fzone"||location == "location_pzone"){ //魔陷区和场地区最多只能有1张卡
+	if(location == "location_szone" || location == "location_field"|| location == "location_fzone"||location == "location_pzone"){ // Magic trap zone and field area can only have 1 Card 
 		card_list = [];
 	}
 	card_list.push(card_info);
@@ -405,14 +425,14 @@ function updateCards(thumbs){
 		var card_id = card_info.card_id;
 		var thumbImg = thumb.getElementsByTagName("img")[0];
 		thumb.addAllRelation();
-		if(location == "location_szone" || location == "location_field"){ //魔陷区和场地区只分表侧和里侧
+		if(location == "location_szone" || location == "location_field"){ // Magic trap zone and field area only points on the side and inside 
 			if(card_info.position == "POS_FACEDOWN_ATTACK" || card_info.position == "POS_FACEDOWN_DEFENCE")
 				card_info.position = "POS_FACEDOWN_ATTACK";
 			else
 				card_info.position = "POS_FACEUP_ATTACK";
 		}
 		else if(location == "location_mzone"){
-			if(1 < thumbs.length && i < thumbs.length-1){//超量素材
+			if(1 < thumbs.length && i < thumbs.length-1){// Excess material 
 				card_info.position = "POS_FACEUP_ATTACK";
 				card_info.IsXYZmaterial = true;
 			}
@@ -420,7 +440,7 @@ function updateCards(thumbs){
 				card_info.IsXYZmaterial = false;
 			}
 		}
-		else if(location != "location_mzone"){//除魔陷和怪兽区
+		else if(location != "location_mzone"){// Divine magic and monster area 
 			card_info.position = "POS_FACEUP_ATTACK";
 		}
 		if(card_info.position == "POS_FACEUP_ATTACK"){
@@ -522,7 +542,7 @@ var up;
 function mouseUp(ev){
 	ev         = ev || window.event;
 	var target = ev.target || ev.srcElement;
-	if(ev.button == 0 || ev.button == 1){//鼠标左键，ie是0，其他是1
+	if(ev.button == 0 || ev.button == 1){// left mouse button ，ie Yes 0， other  Yes 1
 		var dragImage  = document.getElementById('DragImage');
 		if(dragging){
 			dragging = false;

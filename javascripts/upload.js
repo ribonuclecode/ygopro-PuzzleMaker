@@ -13,7 +13,7 @@ patterns[7] = new RegExp("\\s*aux\\.BeginPuzzle\\(\\s*\\).*");
 
 
 upload = function(files) {
-	//清空之前的残局
+	// Empty before the mess 
 	hintMsgs = [];
 	var fields = GetAllFields();
 	for(var i in fields){
@@ -206,7 +206,7 @@ function addNewCard(field, card_info){
 	var tmplItem = $(field).tmplItem().data;
 	var location = tmplItem.location;
 	var card_list = $.data(field, 'card_list');
-	if(location == "location_szone" || location == "location_field"){ //魔陷区和场地区最多只能有1张卡
+	if(location == "location_szone" || location == "location_field"){ // Magic trap zone and field area can only have 1 Card 
 		card_list = [];
 	}
 	if(location == "location_mzone"){

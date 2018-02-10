@@ -29,18 +29,18 @@ var PopMenu = function createPopMenu(){
 	var i = 0;
 	var maxWidth = maxHeight = 0;
 	var aDoc = [document.documentElement.offsetWidth, document.documentElement.offsetHeight];
-	var thumb;//弹出右键菜单的thumb
+	var thumb;// Pop-up menu thumb
 	var thumbImg;
 	popMenu.style.display = "none";
 	for (i = 0; i < aLi.length; i++){
-		//为含有子菜单的li加上箭头
+		// It contains submenus li Add arrow 
 		aLi[i].getElementsByTagName("ul")[0] && (aLi[i].className = "sub");
 		
 		aLi[i].onmouseover = function (){
 			var oThis = this;
 			var oUl = oThis.getElementsByTagName("ul");
 			oThis.className += " active";   
-			//显示子菜单
+			// Display submenu 
 			if (oUl[0]){
 				clearTimeout(hideTimer);    
 				showTimer = setTimeout(function (){
@@ -52,10 +52,10 @@ var PopMenu = function createPopMenu(){
 					oUl[0].style.top = oThis.offsetTop + "px";
 					oUl[0].style.left = oThis.offsetWidth + "px";
 					setWidth(oUl[0]);
-					//最大显示范围
+					// The maximum display range 
 					maxWidth = aDoc[0] - oUl[0].offsetWidth;
 					maxHeight = aDoc[1] - oUl[0].offsetHeight;
-					//防止溢出
+					// Prevent overflow 
 					maxWidth < getOffset.left(oUl[0]) && (oUl[0].style.left = -oUl[0].clientWidth + "px");
 					maxHeight < getOffset.top(oUl[0]) && (oUl[0].style.top = -oUl[0].clientHeight + oThis.offsetTop + oThis.clientHeight + "px")
 				},300);
@@ -76,8 +76,8 @@ var PopMenu = function createPopMenu(){
 		};
 	}
 	
-	//各菜单项的响应事件
-	aLi[1].onmousedown = function(event){//表侧攻击表示
+	// The response of each menu item 
+	aLi[1].onmousedown = function(event){// Side attack said 
 		var tmplItem = $(thumb).tmplItem().data;
 		var card_id = tmplItem.card_info.card_id;
 		thumbImg.src = card_img_thumb_url + card_id + ".jpg";
@@ -91,7 +91,7 @@ var PopMenu = function createPopMenu(){
 		}
 		Img.rotate(thumb, 0);
 	}
-	aLi[2].onmousedown = function(event){//表侧守备表示
+	aLi[2].onmousedown = function(event){// The side of the guard said 
 		var tmplItem = $(thumb).tmplItem().data;
 		var card_id = tmplItem.card_info.card_id;
 		thumbImg.src = card_img_thumb_url + card_id + ".jpg";
@@ -105,7 +105,7 @@ var PopMenu = function createPopMenu(){
 		}
 		Img.rotate(thumb, -90);
 	}
-	aLi[3].onmousedown = function(event){//里侧守备表示
+	aLi[3].onmousedown = function(event){// Inside the garrison said 
 		var tmplItem = $(thumb).tmplItem().data;
 		var card_id = tmplItem.card_info.card_id;
 		thumbImg.src = "images/unknow.jpg";
@@ -119,7 +119,7 @@ var PopMenu = function createPopMenu(){
 		}
 		Img.rotate(thumb, -90);
 	}
-	aLi[4].onmousedown = function(event){//里侧攻击表示
+	aLi[4].onmousedown = function(event){// Inside attack said 
 		var tmplItem = $(thumb).tmplItem().data;
 		var card_id = tmplItem.card_info.card_id;
 		thumbImg.src = "images/unknow.jpg";
@@ -133,15 +133,15 @@ var PopMenu = function createPopMenu(){
 		}
 		Img.rotate(thumb, 0);
 	}
-	aLi[5].onmousedown = function(event){//不解除苏生限制
+	aLi[5].onmousedown = function(event){// Do not lift the Soviet restrictions 
 		var tmplItem = $(thumb).tmplItem().data;
 		tmplItem.card_info.disable_revivelimit = false;
 	}
-	aLi[6].onmousedown = function(event){//解除苏生限制
+	aLi[6].onmousedown = function(event){// Suspension restrictions 
 		var tmplItem = $(thumb).tmplItem().data;
 		tmplItem.card_info.disable_revivelimit = true;
 	}
-	aLi[7].onmousedown = function(event){//添加永续效果对象
+	aLi[7].onmousedown = function(event){// Add perpetual effect object 
 		thumb_continuous = thumb;
 		var fields = GetAllFields();
 		for(var i=0; i< fields.length;i++){
@@ -164,7 +164,7 @@ var PopMenu = function createPopMenu(){
 			alert("The field does not exist the right sustainable effect object!");
 		}
 	}
-	aLi[8].onmousedown = function(event){//删除永续效果对象
+	aLi[8].onmousedown = function(event){// Remove perpetual effect object 
 		thumb_continuous = thumb;
 		var card_info = $(thumb).tmplItem().data.card_info;
 		var thumbs = card_info.continuous_target;
@@ -179,7 +179,7 @@ var PopMenu = function createPopMenu(){
 			$(document).tooltip({track: true});
 		}
 	}
-	aLi[9].onmousedown = function(event){//设置装备对象
+	aLi[9].onmousedown = function(event){// Set equipment object 
 		thumb_equip = thumb;
 		var fields = GetAllFields();
 		for(var i=0; i< fields.length;i++){
@@ -205,64 +205,64 @@ var PopMenu = function createPopMenu(){
 			alert("Field does not exist suitable equipment object!");
 		}
 	}
-	aLi[10].onmousedown = function(event){//删除装备对象
+	aLi[10].onmousedown = function(event){// Delete equipment object 
 		var card_info = $(thumb).tmplItem().data.card_info;
 		var equip_target = card_info.equip_target[0];
 		removeEquipRelation(thumb, equip_target);
 		removeBeEquipRelation(equip_target, thumb);
 	}
-	aLi[11].onmousedown = function(event){//放置指示物
+	aLi[11].onmousedown = function(event){// Place the pointer 
 		var tmplItem = $(thumb).tmplItem().data;
 		var card_counters = tmplItem.card_info.card_counters;
 		var counterSelectors = $('#counterSelectors');
 		counterSelectors.empty();
 		if(card_counters.length == 0){	
-			addCounterSelector();//增加默认的指示物选择器
+			addCounterSelector();// Add default indicator selector 
 		}
 		else {
-			for(var i=0; i<card_counters.length; i++){//设置指示物选择器中已选中的项以及数量
+			for(var i=0; i<card_counters.length; i++){// Set the selected item and quantity in the indicator selector 
 				addCounterSelector(card_counters[i].code, card_counters[i].number);
 			}
 		}
 		$('#add_counter_dialog').dialog('open');
 		return false;
 	}
-	aLi[14].onmousedown = function(event){//设置攻击力
+	aLi[14].onmousedown = function(event){// Set attack power 
 		var card_info = $(thumb).tmplItem().data.card_info;
 		var attack = prompt("Enter attack power!", card_info.attack || 0);
 		if(attack != undefined && !isNaN(attack)){
 			card_info.attack = attack;
 		}
 	}
-	aLi[15].onmousedown = function(event){//设置原本攻击力
+	aLi[15].onmousedown = function(event){// Set the original attack 
 		var card_info = $(thumb).tmplItem().data.card_info;
 		var base_attack = prompt("Enter the original attack!", card_info.base_attack || 0);
 		if(base_attack != undefined && !isNaN(base_attack)){
 			card_info.base_attack = base_attack;
 		}
 	}
-	aLi[17].onmousedown = function(event){//设置防御力
+	aLi[17].onmousedown = function(event){// Set defense force 
 		var card_info = $(thumb).tmplItem().data.card_info;
 		var defence = prompt("Enter defense force!", card_info.defence || 0);
 		if(defence != undefined && !isNaN(defence)){
 			card_info.defence = defence;
 		}
 	}
-	aLi[18].onmousedown = function(event){//设置原本防御力
+	aLi[18].onmousedown = function(event){// Set the original defense 
 		var card_info = $(thumb).tmplItem().data.card_info;
 		var base_defence = prompt("Enter the original defense!", card_info.base_defence || 0);
 		if(base_defence != undefined && !isNaN(base_defence)){
 			card_info.base_defence = base_defence;
 		}
 	}
-	aLi[19].onmousedown = function(event){//设置等级
+	aLi[19].onmousedown = function(event){// Set the level 
 		var card_info = $(thumb).tmplItem().data.card_info;
 		var level = prompt("Enter the grade!", card_info.level || 0);
 		if(level != undefined && !isNaN(level)){
 			card_info.level = level;
 		}
 	}
-	aLi[20].onmousedown = function(event){//调整顺序
+	aLi[20].onmousedown = function(event){// Adjust the order 
 		var field = thumb.parentNode;
 		var sortable = $('#sortable');
 		sortable.empty();
@@ -373,10 +373,10 @@ var PopMenu = function createPopMenu(){
 		popMenu.style.top = getMousePos(event).y + "px";
 		popMenu.style.left = getMousePos(event).x + "px";
 		setWidth(aUl[0]);
-		//最大显示范围
+		// The maximum display range 
 		maxWidth = aDoc[0] - popMenu.offsetWidth;
 		maxHeight = aDoc[1] - popMenu.offsetHeight;
-		//防止菜单溢出
+		// Prevent the menu from overflowing 
 		popMenu.offsetTop > maxHeight && (popMenu.style.top = maxHeight + "px");
 		popMenu.offsetLeft > maxWidth && (popMenu.style.left = maxWidth + "px");
 		return false;
@@ -447,19 +447,19 @@ var PopMenu = function createPopMenu(){
 		}
 	});
 }
-function delCounterSelector(ev){//删除同一行的选择器
+function delCounterSelector(ev){// Delete the selector on the same line 
 	ev         = ev || window.event;
 	var target = ev.target || ev.srcElement;
 	var div = target.parentNode;
 	div.parentNode.removeChild(div);
 }
-function addCounterSelector(code, number){//添加选择器
+function addCounterSelector(code, number){// Add selector 
 	$("#CounterSelector-tmpl").tmpl({
 		counters: counters,
 		_code: code || "0x3001",
 		_number: number || 0
 	}).appendTo($('#counterSelectors'));
-	$('.spinner').spinner({//设置指示物的数量不能小于1
+	$('.spinner').spinner({// Set the number of indicators can not be less than 1
 		spin: function( event, ui ) {
 			if ( ui.value < 1 ) {
 				return false;
@@ -467,7 +467,7 @@ function addCounterSelector(code, number){//添加选择器
 		}
 	});
 }
-function addCounter(dialog, thumb){//根据dialog的内容更新thumb
+function addCounter(dialog, thumb){// according to dialog Updated content thumb
 	var card_info = $(thumb).tmplItem().data.card_info;
 	card_info.card_counters = [];
 	var CounterSelectors = dialog.getElementsByClassName("CounterSelector");
@@ -480,7 +480,7 @@ function addCounter(dialog, thumb){//根据dialog的内容更新thumb
 			card_info.card_counters.push({code : code , number : number});
 	}
 }
-function sort(dialog, field){//根据dialog的顺序更新field
+function sort(dialog, field){// according to dialog The order of updates field
 	var thumbs = dialog.getElementsByClassName("thumbImg");
 	var card_list = [];
 	for(var i =0; i < thumbs.length; i++){

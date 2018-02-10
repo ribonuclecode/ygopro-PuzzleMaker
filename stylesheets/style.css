@@ -221,7 +221,7 @@ header p {
 #search_bar {
   z-index: 100;
   left: 920px;
-  top: 55px;
+  top: 20px;
   position: absolute;
   background: #bbbbbb;
   -moz-border-radius: 5px;
@@ -311,7 +311,7 @@ header p {
   color: #333333;
   text-align: left;
   height: 64px;
-  line-height: 60px;
+  /*line-height: 60px;*/
   cursor: pointer;
 }
 #DragImage {
@@ -325,6 +325,7 @@ header p {
 #content{
   margin: 5px 30px 5px 30px;
   position: relative;
+  height: 475px;
 }
 #popMenu{
   position:absolute;
