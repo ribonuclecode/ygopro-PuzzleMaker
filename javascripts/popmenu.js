@@ -161,7 +161,7 @@ var PopMenu = function createPopMenu(){
 			}
 		}
 		if(!selectingContinuous){
-			alert("场上不存在合适的永续效果对象！");
+			alert("The field does not exist the right sustainable effect object!");
 		}
 	}
 	aLi[8].onmousedown = function(event){//删除永续效果对象
@@ -202,7 +202,7 @@ var PopMenu = function createPopMenu(){
 			}
 		}
 		if(!selectingEquip){
-			alert("场上不存在合适的装备对象！");
+			alert("Field does not exist suitable equipment object!");
 		}
 	}
 	aLi[10].onmousedown = function(event){//删除装备对象
@@ -229,35 +229,35 @@ var PopMenu = function createPopMenu(){
 	}
 	aLi[14].onmousedown = function(event){//设置攻击力
 		var card_info = $(thumb).tmplItem().data.card_info;
-		var attack = prompt("输入攻击力！", card_info.attack || 0);
+		var attack = prompt("Enter attack power!", card_info.attack || 0);
 		if(attack != undefined && !isNaN(attack)){
 			card_info.attack = attack;
 		}
 	}
 	aLi[15].onmousedown = function(event){//设置原本攻击力
 		var card_info = $(thumb).tmplItem().data.card_info;
-		var base_attack = prompt("输入原本攻击力！", card_info.base_attack || 0);
+		var base_attack = prompt("Enter the original attack!", card_info.base_attack || 0);
 		if(base_attack != undefined && !isNaN(base_attack)){
 			card_info.base_attack = base_attack;
 		}
 	}
 	aLi[17].onmousedown = function(event){//设置防御力
 		var card_info = $(thumb).tmplItem().data.card_info;
-		var defence = prompt("输入防御力！", card_info.defence || 0);
+		var defence = prompt("Enter defense force!", card_info.defence || 0);
 		if(defence != undefined && !isNaN(defence)){
 			card_info.defence = defence;
 		}
 	}
 	aLi[18].onmousedown = function(event){//设置原本防御力
 		var card_info = $(thumb).tmplItem().data.card_info;
-		var base_defence = prompt("输入原本防御力！", card_info.base_defence || 0);
+		var base_defence = prompt("Enter the original defense!", card_info.base_defence || 0);
 		if(base_defence != undefined && !isNaN(base_defence)){
 			card_info.base_defence = base_defence;
 		}
 	}
 	aLi[19].onmousedown = function(event){//设置等级
 		var card_info = $(thumb).tmplItem().data.card_info;
-		var level = prompt("输入等级！", card_info.level || 0);
+		var level = prompt("Enter the grade!", card_info.level || 0);
 		if(level != undefined && !isNaN(level)){
 			card_info.level = level;
 		}
@@ -417,13 +417,13 @@ var PopMenu = function createPopMenu(){
 		modal: true,
 		width: 450,
 		buttons: {
-			"确定": function() {
+			"DETERMINE": function() {
 				addCounter(this, thumb);
 				$( this ).dialog({hide: "clip"});
 				$( this ).dialog( "close" );
 				$( this ).dialog({hide: "puff"});
 			},
-			"取消": function() {
+			"CANCEL": function() {
 				$( this ).dialog( "close" );
 			}
 		}
@@ -435,13 +435,13 @@ var PopMenu = function createPopMenu(){
 		modal: true,
 		width: 450,
 		buttons: {
-			"确定": function() {
+			"DETERMINE": function() {
 				sort(this, thumb.parentNode);
 				$( this ).dialog({hide: "clip"});
 				$( this ).dialog( "close" );
 				$( this ).dialog({hide: "puff"});
 			},
-			"取消": function() {
+			"CANCEL": function() {
 				$( this ).dialog( "close" );
 			}
 		}

@@ -1,7 +1,7 @@
 
 
 function downloadURL(){
-	var newfilename = prompt("输入文件名！",filename);
+	var newfilename = prompt("Fichero:",filename);
 	if(!newfilename){
 		return ;
 	}
@@ -9,7 +9,7 @@ function downloadURL(){
 	var player_LP = document.getElementById("Player_LP").value;
 	var AI_LP = document.getElementById("AI_LP").value;
 	var DUEL_PSEUDO_SHUFFLE = document.getElementById("check_shuffle").checked;
-	var str = "--created by ygopro puzzle maker (web) \r\n";
+	var str = "";
 	str += "Debug.SetAIName(\"" + AI_name + "\")\r\n";
 	if(DUEL_PSEUDO_SHUFFLE){
 		str += "Debug.ReloadFieldBegin(DUEL_ATTACK_FIRST_TURN+DUEL_SIMPLE_AI+DUEL_PSEUDO_SHUFFLE)\r\n";
@@ -19,7 +19,7 @@ function downloadURL(){
 	}
 	str += "Debug.SetPlayerInfo(0," + player_LP + ",0,0)\r\n";
 	str += "Debug.SetPlayerInfo(1," + AI_LP + ",0,0)\r\n" ;
-	var action = "";//包括addCounter、Equip、setTarget等等
+	var action = "";
 	var fields = GetAllFields();
 	for(var i=0; i< fields.length;i++){
 		var tmplItem = $(fields[i]).tmplItem().data;
@@ -33,7 +33,7 @@ function downloadURL(){
 		var thumbs = fields[i].getElementsByClassName("thumb");
 		for(var j=0; j < thumbs.length; j++){
 			var index;
-			if(location == "LOCATION_MZONE"){//MZONE的顺序要颠倒一下
+			if(location == "LOCATION_MZONE"){
 				index = thumbs.length - j -1;
 			}
 			else {
@@ -99,8 +99,12 @@ function downloadURL(){
 	str += action;
 	//this.href = "http://my-card.in/singles/new.lua?name=Untitled&script=" + encodeURIComponent(str);
 	document.getElementById("single_name").value = filename;
+
 	document.getElementById("single_script").value = str;
-	document.getElementById("download_form").submit();
+    var blob = new Blob([str], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, filename+".lua");
+    alert("Se ha guardado el fichero");
+	//document.getElementById("download_form").submit();
 }
 function set_attack(cn, attack){
 	return set_value(cn, "EFFECT_SET_ATTACK", attack);

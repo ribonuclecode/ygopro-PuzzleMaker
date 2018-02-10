@@ -11,7 +11,7 @@ function makeDraggable(thumb){
 			}
 			dragImage.src  = thumb.src;
 			var x = thumb.src.lastIndexOf('.');
-			var card_id = parseInt(thumb.src.substring(49,x));
+			var card_id = parseInt(thumb.src.match(/(\d+)/g));
 			var card_info = newCard_Info(card_id);
 			$.data(dragImage, 'card_info', card_info);
 			dragging = true;
@@ -24,10 +24,11 @@ function makeDraggable(thumb){
 	}
 	thumb.onmouseover = function(){
 		var x = thumb.src.lastIndexOf('.');
-		var card_id = parseInt(thumb.src.substring(49,x));
+		//var card_id = parseInt(thumb.src.substring(49,x));
+        var card_id = parseInt(thumb.src.match(/(\d+)/g));
 		showDetail(card_id);
 	}
-	//与图片相邻的表格也可以拖动
+	//The table adjacent to the picture can also be dragged.
 	parent.childNodes[1].childNodes[0].onmouseover = thumb.onmouseover;
 	parent.childNodes[1].childNodes[0].onmousedown = thumb.onmousedown;
 }
@@ -121,19 +122,19 @@ function makeMoveable(thumb){
 	
 		var str="";
 		if(card_info.attack != undefined){
-			str += "攻击力：" + card_info.attack + "</br>";
+			str += "Attack:" + card_info.attack + "</br>";
 		}
 		if(card_info.base_attack != undefined){
-			str += "原本攻击力：" + card_info.base_attack + "</br>";
+			str += "Attack (Original)：" + card_info.base_attack + "</br>";
 		}
 		if(card_info.defence != undefined){
-			str += "防御力：" + card_info.defence + "</br>";
+			str += "Defense：" + card_info.defence + "</br>";
 		}
 		if(card_info.base_defence != undefined){
-			str += "原本防御力：" + card_info.base_defence + "</br>";
+			str += "Defense (Original)：" + card_info.base_defence + "</br>";
 		}
 		if(card_info.level != undefined){
-			str += "怪兽等级：" + card_info.level + "</br>";
+			str += "Level：" + card_info.level + "</br>";
 		}
 		if(card_counters.length){
 			for(var k = 0; k < card_counters.length; k++){

@@ -1,7 +1,7 @@
 var filename = "Untitled";
-var AI_name = "高性能电子头脑";
+var AI_name = "NightBot(Discord)";
 var hintMsgs = [];
-hintMsgs[0] = "在这个回合取得胜利！";
+hintMsgs[0] = "Win in this turn!";
 var _popmenu;
 var dragging = false;
 var putting = false;
@@ -58,8 +58,11 @@ var COORDINATE = [PLAYER_0,PLAYER_1];
 var locale = 'zh';
 var cards_url = "http://my-card.in/cards";
 
-var card_img_url = "http://my-card.in/images/cards/ygocore/";
-var card_img_thumb_url = "http://my-card.in/images/cards/ygocore/thumbnail/";
+//var card_img_url = "http://my-card.in/images/cards/ygocore/";
+//var card_img_thumb_url = "http://my-card.in/images/cards/ygocore/thumbnail/";
+
+var card_img_url = "https://raw.githubusercontent.com/moecube/ygopro-images/master/pics/";
+var card_img_thumb_url = "https://raw.githubusercontent.com/moecube/ygopro-images/master/pics/";
 
 var datas = new Object();
 
@@ -119,13 +122,13 @@ function initField(){
 		modal: true,
 		width: 350,
 		buttons: {
-			"确定": function() {
+			"DETERMINE": function() {
 				settingOK(this);
 				$( this ).dialog({hide: "clip"});
 				$( this ).dialog( "close" );
 				$( this ).dialog({hide: "puff"});
 			},
-			"取消": function() {
+			"CANCEL": function() {
 				$( this ).dialog( "close" );
 			}
 		}
@@ -153,6 +156,7 @@ function initField(){
 	current_page = 1;
 	page_num = 0;
 	html = "";
+    //default_result = default_result.slice(1,100)
 	for( var i in default_result){
 	
 		var card = default_result[i];
@@ -161,12 +165,13 @@ function initField(){
 			page_num ++;
 			html = html + "<table class='page' style='display:none'>";
 			html = html + "<tr>";
-			html = html + "<th width='46px'>卡图</th>";
-			html = html + "<th >卡名</th>";
+			html = html + "<th width='46px'>Ilustration</th>";
+			html = html + "<th >Name</th>";
 			html = html + "</tr>";
 		}
 		html = html + "<tr>";
-		html = html + "<td><img class='thumbImg' src='" + card_img_thumb_url + card._id + ".jpg' style='cursor:pointer;'>" + "</td>";
+		//html = html + "<td><img class='thumbImg' src='" + card_img_thumb_url + card._id + ".jpg' style='cursor:pointer;'>" + "</td>";
+        html = html + "<td><img class='thumbImg' src='" + card_img_thumb_url + "" + ".jpg' style='cursor:pointer;'>" + "</td>";
 		html = html + "<td width=200px><div class='cardname'>" + card.name + "</div></td>";
 		html = html + "</tr>";
 		if(((i+1)%table_row==0) || (i==default_result.length)){
@@ -199,7 +204,7 @@ function search(){
 			setPageLabel();
 			page_button.style.display = 'none';
 			$("#result").html(html);
-			alert("未找到相关卡片");
+			alert("No related cards found");
 			return false;
 		}
 		var cards_id = [];
@@ -243,8 +248,8 @@ function search(){
 					page_num ++;
 					html = html + "<table class='page' style='display:none'>";
 					html = html + "<tr>";
-					html = html + "<th width='46px'>卡图</th>";
-					html = html + "<th >卡名</th>";
+					html = html + "<th width='46px'>Illustration</th>";
+					html = html + "<th >Name</th>";
 					html = html + "</tr>";
 				}
 				html = html + "<tr>";
@@ -485,9 +490,12 @@ function addToFields(fields, classname){
 	}
 }
 function showDetail(card_id){
+    console.log(card_id);
 	var img = document.getElementById("detail_image");
 	img.src = card_img_url + card_id + ".jpg";
+    console.log(img.src);
 	var card = datas[card_id];
+    console.log(card);
 	var textarea = document.getElementById("detail_textarea");
 	var text = card.name + "["+ card._id + "]" + "\r\n";
 	text += "[" + card.type + "]   "

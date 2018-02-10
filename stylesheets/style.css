@@ -301,6 +301,11 @@ header p {
   position: absolute;
   display: inline-block;
 }
+
+.thumb img.thumbImg {
+    height: 100%;
+}
+
 #search_bar .cardname {
   font-size: 14px;
   color: #333333;
